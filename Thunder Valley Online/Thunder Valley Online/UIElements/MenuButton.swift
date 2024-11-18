@@ -8,11 +8,33 @@
 import SwiftUI
 
 struct MenuButton: View {
+    var text: String
+    var fontSize: CGFloat
+    var action: () -> Void
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: action, label: {
+            ZStack {
+                Image("menuBtn")
+                    .resizable()
+                    .scaledToFit()
+                Text(text)
+                    .font(.system(size: fontSize))
+                    .foregroundColor(.white)
+            }
+            .padding(-5)
+        })
+      
+        //.background(Color.green)
+        
     }
 }
 
+
+
 #Preview {
-    MenuButton()
+    MenuButton(text: "Hello", fontSize: 25) {
+        print("Test")
+    }
+        .frame(height: 88)
+       
 }

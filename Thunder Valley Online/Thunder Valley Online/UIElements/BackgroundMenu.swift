@@ -9,7 +9,15 @@ import SwiftUI
 
 struct BackgroundMenu: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Rectangle()
+                .foregroundColor(.menuBackground)
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(lineWidth: 4).foregroundColor(.menuLine)
+                )
+        }
     }
 }
 
