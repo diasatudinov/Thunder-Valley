@@ -11,7 +11,7 @@ import SwiftUI
 struct Thunder_Valley_OnlineApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MenuView()
         }
     }
 }
