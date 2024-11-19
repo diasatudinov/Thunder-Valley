@@ -9,10 +9,23 @@ import SwiftUI
 
 @main
 struct Thunder_Valley_OnlineApp: App {
-    
+    @State private var isMenu = false
     var body: some Scene {
         WindowGroup {
-            GameView()
+            
+            if isMenu {
+                MenuView()
+            } else {
+                SplashScreen()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) {
+                            withAnimation {
+                                isMenu = true
+                            }
+                        }
+                    }
+            }
+            
         }
     }
 }
