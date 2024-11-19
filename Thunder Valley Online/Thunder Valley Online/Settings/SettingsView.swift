@@ -107,8 +107,8 @@ struct SettingsView: View {
         }.textCase(.uppercase).background(
             Image(.background)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
+                .scaledToFill()
             
         )
     }

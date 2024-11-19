@@ -105,8 +105,8 @@ struct MenuView: View {
             .background(
                 Image(.background)
                     .resizable()
-                    .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
+                    .scaledToFill()
                 
             )
 //            .onAppear {
@@ -122,11 +122,7 @@ struct MenuView: View {
 //                }
 //            }
             .fullScreenCover(isPresented: $showGame) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text("Back")
-                }
+                GameView()
             }
             .fullScreenCover(isPresented: $showLeaderboard) {
                 LeaderboardView()

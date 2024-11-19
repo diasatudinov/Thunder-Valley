@@ -188,8 +188,8 @@ struct AchievementsView: View {
             }.background(
                 Image(.background)
                     .resizable()
-                    .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
+                    .scaledToFill()
                 
             )
         }
