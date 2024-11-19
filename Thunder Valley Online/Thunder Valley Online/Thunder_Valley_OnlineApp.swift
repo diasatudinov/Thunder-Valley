@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct Thunder_Valley_OnlineApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            MenuView()
+            GameView()
         }
     }
 }
