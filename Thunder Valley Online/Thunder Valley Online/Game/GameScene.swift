@@ -9,11 +9,17 @@ import SpriteKit
 
 protocol GameSceneDelegate: AnyObject {
     func restart()
+    func pause()
+    func resume()
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var duration: Double {
         return UIDevice.current.orientation.isPortrait ? 4 : 2
+    }
+    
+    var shiftUp: Double {
+        return UIDevice.current.orientation.isPortrait ? 200 : 50
     }
     
     var scoreUpdateHandler: (() -> Void)?
@@ -27,7 +33,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Thunder node
     var thunder: SKSpriteNode!
     var thunderName: String = "thunder"
+    
     override func didMove(to view: SKView) {
+        
         self.backgroundColor = .clear
         
         // Set up physics world
@@ -77,6 +85,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(spawnSequence), withKey: "spawningClouds")
     
     }
+    func setThunderPosition(for size: CGSize) {
+        thunder.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 + 200)
+    }
+    
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard !isGameOver else { return }
@@ -107,7 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeAllChildren()
         thunder = SKSpriteNode(imageNamed: thunderName)
         thunder.size = CGSize(width: 28, height: 70)
-        thunder.position = CGPoint(x: UIScreen.main.bounds.width / 2 - 80, y: UIScreen.main.bounds.height / 2 + 75)
+        thunder.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 + shiftUp)
         thunder.physicsBody = SKPhysicsBody(rectangleOf: thunder.size)
         thunder.physicsBody?.isDynamic = false
         thunder.physicsBody?.categoryBitMask = thunderCategory
@@ -122,6 +134,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 }
 
 extension GameScene: GameSceneDelegate {
+    func pause() {
+        self.isPaused = true
+    }
+    
+    func resume() {
+        self.isPaused = false
+    }
+    
     func restart() {
         print("restart")
         restartGame()

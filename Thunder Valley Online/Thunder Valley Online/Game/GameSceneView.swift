@@ -24,6 +24,7 @@ struct GameSceneView: UIViewRepresentable {
         scene.restartGame()
         skView.presentScene(scene)
         skView.ignoresSiblingOrder = true
+        skView.backgroundColor = .clear
         return skView
     }
     
