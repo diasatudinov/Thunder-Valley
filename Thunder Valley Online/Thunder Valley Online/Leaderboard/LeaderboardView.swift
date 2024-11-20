@@ -19,29 +19,28 @@ struct LeaderboardView: View {
                 
                 VStack(spacing: 0) {
                     Text("Leaderboard")
-                        
-                        .font(.system(size: 24))
+                        .font(.custom("AbhayaLibre-Regular", size: 24))
                         .foregroundColor(.white)
                         .padding(.top)
                         .padding(.bottom, 15)
-                   
+                    
                     HStack {
                         Text("Name")
                         Spacer()
                         Text("Score")
-                            
+                        
                     }.padding(.horizontal, 20)
-                    .font(.system(size: 16))
-                    .foregroundColor(.white)
-                    .frame(width: 270)
-                    .padding(.bottom, 10)
+                        .font(.custom("AbhayaLibre-Regular", size: 16))
+                        .foregroundColor(.white)
+                        .frame(width: 270)
+                        .padding(.bottom, 10)
                     
                     VStack(spacing: 10) {
                         ForEach(viewModel.otherPlayers.indices, id: \.self) { index in
                             ZStack {
-                               
+                                
                                 Image(.leaderboard)
-                                    
+                                
                                 HStack(spacing: 0) {
                                     Text("\(index + 1) - ")
                                     Text("\(viewModel.otherPlayers[index].name)")
@@ -52,9 +51,9 @@ struct LeaderboardView: View {
                         }
                         
                         ZStack {
-                           
+                            
                             Image(.leaderboard)
-                                
+                            
                             HStack(spacing: 0) {
                                 Text("55 - ")
                                 Text("YOU")
@@ -62,13 +61,13 @@ struct LeaderboardView: View {
                                 Text("\(viewModel.user.score)")
                             }.padding(.horizontal, 20)
                         }.frame(width: 270)
-                    }.font(.system(size: 13))
+                    }.font(.custom("AbhayaLibre-Regular", size: 13))
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
                         .padding(.bottom)
                     
                     
-
+                    
                     
                 }.background(
                     

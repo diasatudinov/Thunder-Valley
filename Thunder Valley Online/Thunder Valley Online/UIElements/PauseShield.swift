@@ -26,7 +26,7 @@ struct PauseShield: View {
                             .frame(height: 38)
                         
                         Text("Pause")
-                            .font(.system(size: 28))
+                            .font(.custom("AbhayaLibre-Regular", size: 28))
                             .textCase(.uppercase)
                             .foregroundColor(.white)
                         
@@ -44,7 +44,7 @@ struct PauseShield: View {
                                     .frame(height: 40)
                                 
                                 Text("Resume")
-                                    .font(.system(size: 24))
+                                    .font(.custom("AbhayaLibre-Regular", size: 24))
                                     .textCase(.uppercase)
                                     .foregroundColor(.white)
                                 
@@ -61,7 +61,7 @@ struct PauseShield: View {
                                     .frame(height: 40)
                                 
                                 Text("Menu")
-                                    .font(.system(size: 24))
+                                    .font(.custom("AbhayaLibre-Regular", size: 24))
                                     .textCase(.uppercase)
                                     .foregroundColor(.white)
                                 

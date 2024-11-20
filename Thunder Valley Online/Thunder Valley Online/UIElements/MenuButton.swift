@@ -18,7 +18,7 @@ struct MenuButton: View {
                     .resizable()
                     .scaledToFit()
                 Text(text)
-                    .font(.system(size: fontSize))
+                    .font(.custom("AbhayaLibre-Regular", size: fontSize))
                     .foregroundColor(.white)
             }
             .padding(-5)

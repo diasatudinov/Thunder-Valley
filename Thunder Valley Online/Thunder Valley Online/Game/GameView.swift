@@ -40,7 +40,7 @@ struct GameView: View {
                         HStack {
                             Spacer()
                             Text("Start")
-                                .font(.system(size: 128))
+                                .font(.custom("AbhayaLibre-Regular", size: 128))
                                 .foregroundColor(.white)
                                 .textCase(.uppercase)
                             Spacer()
@@ -65,7 +65,7 @@ struct GameView: View {
                                         .scaledToFit()
                                         .frame(height: geometry.size.width < geometry.size.height ? 35 : 50)
                                     Text("\(score)")
-                                        .font(.system(size: geometry.size.width < geometry.size.height ? 25 : 32))
+                                        .font(.custom("AbhayaLibre-Regular", size: geometry.size.width < geometry.size.height ? 25 : 32))
                                         .foregroundColor(.white)
                                 }
                             }
@@ -104,7 +104,7 @@ struct GameView: View {
                                                 .frame(height: 30)
                                             Spacer()
                                             Text("\(Int(combo))")
-                                                .font(.system(size: geometry.size.width < geometry.size.height ? 25 : 32))
+                                                .font(.custom("AbhayaLibre-Regular", size: geometry.size.width < geometry.size.height ? 25 : 32))
                                                 .foregroundColor(.white)
                                             
                                         }.padding(.horizontal).frame(width: geometry.size.width < geometry.size.height ? 100 : 131)

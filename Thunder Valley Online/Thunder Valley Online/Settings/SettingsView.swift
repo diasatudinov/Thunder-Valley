@@ -16,13 +16,13 @@ struct SettingsView: View {
                 
                 VStack(spacing: 0) {
                     Text("Settings")
-                        .font(.system(size: 24))
+                        .font(.custom("AbhayaLibre-Regular", size: 24))
                         .foregroundColor(.white)
                         .padding(.top, 30)
                         .padding(.bottom, 15)
                     VStack(spacing: 12) {
                         Text("Effects")
-                            .font(.system(size: 20))
+                            .font(.custom("AbhayaLibre-Regular", size: 20))
                             .foregroundColor(.white)
                         HStack(spacing: 7) {
                             Button {
@@ -52,7 +52,7 @@ struct SettingsView: View {
                     
                     VStack(spacing: 12) {
                         Text("Music")
-                            .font(.system(size: 20))
+                            .font(.custom("AbhayaLibre-Regular", size: 20))
                             .foregroundColor(.white)
                         HStack(spacing: 7) {
                             Button {

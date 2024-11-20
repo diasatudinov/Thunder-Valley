@@ -28,7 +28,7 @@ struct MenuShield: View {
                             .frame(height: 38)
                             
                         Text("Game Over!")
-                            .font(.system(size: 28))
+                            .font(.custom("AbhayaLibre-Regular", size: 28))
                             .textCase(.uppercase)
                             .foregroundColor(.white)
                             
@@ -36,7 +36,7 @@ struct MenuShield: View {
                     
                     VStack(spacing: 5) {
                         Text("Score")
-                            .font(.system(size: 15))
+                            .font(.custom("AbhayaLibre-Regular", size: 15))
                             .textCase(.uppercase)
                             .foregroundColor(.white)
                         ZStack {
@@ -46,7 +46,7 @@ struct MenuShield: View {
                                 .frame(height: 16)
                             
                             Text("\(score)")
-                                .font(.system(size: 10))
+                                .font(.custom("AbhayaLibre-Regular", size: 10))
                                 .textCase(.uppercase)
                                 .foregroundColor(.white)
                         }
@@ -54,7 +54,7 @@ struct MenuShield: View {
                     
                     VStack(spacing: 5) {
                         Text("distance covered")
-                            .font(.system(size: 15))
+                            .font(.custom("AbhayaLibre-Regular", size: 15))
                             .textCase(.uppercase)
                             .foregroundColor(.white)
                         ZStack {
@@ -64,7 +64,7 @@ struct MenuShield: View {
                                 .frame(height: 16)
                             
                             Text("\(distance) M")
-                                .font(.system(size: 10))
+                                .font(.custom("AbhayaLibre-Regular", size: 10))
                                 .textCase(.uppercase)
                                 .foregroundColor(.white)
                         }
@@ -82,7 +82,7 @@ struct MenuShield: View {
                                     .frame(height: 40)
                                 
                                 Text("Retry")
-                                    .font(.system(size: 24))
+                                    .font(.custom("AbhayaLibre-Regular", size: 24))
                                     .textCase(.uppercase)
                                     .foregroundColor(.white)
                                 
@@ -99,7 +99,7 @@ struct MenuShield: View {
                                     .frame(height: 40)
                                 
                                 Text("Menu")
-                                    .font(.system(size: 24))
+                                    .font(.custom("AbhayaLibre-Regular", size: 24))
                                     .textCase(.uppercase)
                                     .foregroundColor(.white)
                                 

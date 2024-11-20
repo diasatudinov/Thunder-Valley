@@ -138,11 +138,7 @@ struct MenuView: View {
                 SettingsView(settings: settingsVM)
             }
             .fullScreenCover(isPresented: $showRules) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text("Back")
-                }
+                RulesView()
             }
         }
     }

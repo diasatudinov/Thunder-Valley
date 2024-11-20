@@ -25,9 +25,9 @@ struct AchievementsView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text("Energy Master")
-                                        .font(.system(size: 32))
+                                        .font(.custom("AbhayaLibre-Regular", size: 32))
                                     Text("collect 50 spheres in one game")
-                                        .font(.system(size: 14))
+                                        .font(.custom("AbhayaLibre-Regular", size: 14))
                                 }
                                 Spacer()
                                 
@@ -48,9 +48,9 @@ struct AchievementsView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text("Overload")
-                                        .font(.system(size: 32))
+                                        .font(.custom("AbhayaLibre-Regular", size: 32))
                                     Text("activate overload mode 3 times in one session")
-                                        .font(.system(size: 14))
+                                        .font(.custom("AbhayaLibre-Regular", size: 14))
                                 }
                                 Spacer()
                                 
@@ -70,9 +70,9 @@ struct AchievementsView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text("Thunder Survivor")
-                                        .font(.system(size: 32))
+                                        .font(.custom("AbhayaLibre-Regular", size: 32))
                                     Text("last more than 2 minutes")
-                                        .font(.system(size: 14))
+                                        .font(.custom("AbhayaLibre-Regular", size: 14))
                                 }
                                 Spacer()
                                 
@@ -97,9 +97,9 @@ struct AchievementsView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text("Energy Master")
-                                        .font(.system(size: 32))
+                                        .font(.custom("AbhayaLibre-Regular", size: 32))
                                     Text("collect 50 spheres in one game")
-                                        .font(.system(size: 14))
+                                        .font(.custom("AbhayaLibre-Regular", size: 14))
                                 }
                                 Spacer()
                                 
@@ -120,9 +120,9 @@ struct AchievementsView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text("Overload")
-                                        .font(.system(size: 32))
+                                        .font(.custom("AbhayaLibre-Regular", size: 32))
                                     Text("activate overload mode 3 times in one session")
-                                        .font(.system(size: 14))
+                                        .font(.custom("AbhayaLibre-Regular", size: 14))
                                 }
                                 Spacer()
                                 
@@ -142,9 +142,9 @@ struct AchievementsView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text("Thunder Survivor")
-                                        .font(.system(size: 29))
+                                        .font(.custom("AbhayaLibre-Regular", size: 29))
                                     Text("last more than 2 minutes")
-                                        .font(.system(size: 14))
+                                        .font(.custom("AbhayaLibre-Regular", size: 14))
                                 }
                                 Spacer()
                                 
