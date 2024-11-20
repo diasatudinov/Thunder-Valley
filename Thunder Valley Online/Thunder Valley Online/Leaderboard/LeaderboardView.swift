@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LeaderboardView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel = LeaderboardViewModel()
+    @ObservedObject var viewModel: LeaderboardViewModel
     
     var body: some View {
         ZStack {
@@ -59,7 +59,7 @@ struct LeaderboardView: View {
                                 Text("55 - ")
                                 Text("YOU")
                                 Spacer()
-                                Text("550")
+                                Text("\(viewModel.user.score)")
                             }.padding(.horizontal, 20)
                         }.frame(width: 270)
                     }.font(.system(size: 13))
@@ -106,5 +106,5 @@ struct LeaderboardView: View {
 }
 
 #Preview {
-    LeaderboardView()
+    LeaderboardView(viewModel: LeaderboardViewModel())
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var settings = SettingsModel()
+    @ObservedObject var settings: SettingsModel
 
     var body: some View {
         ZStack {
@@ -115,5 +115,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(settings: SettingsModel())
 }

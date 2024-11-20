@@ -11,9 +11,12 @@ protocol GameSceneDelegate: AnyObject {
     func restart()
     func pause()
     func resume()
+    func stopSound()
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    let settings = SettingsModel()
+    
     var duration: Double {
         return UIDevice.current.orientation.isPortrait ? 4 : 2
     }
@@ -45,7 +48,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Set up physics world
         self.physicsWorld.contactDelegate = self
-
         // Spawn clouds
         
         startGame()
@@ -107,9 +109,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.bonusResetHandler?()
                     if !self.isInvulnerable {
                         DispatchQueue.main.async {
-                            self.thunder.removeFromParent()
-                            self.addThunder(name: self.thunderName, size: CGSize(width: 28, height: 70))
-                            self.setThunderPosition()
+                           // self.thunder.removeFromParent()
+                            //self.thunder.texture = SKTexture(imageNamed: self.thunderName)
+                            self.changeLightningAppearance(name: self.thunderName)
+                            //self.addThunder(name: self.thunderName, size: CGSize(width: 28, height: 70))
+//                            self.setThunderPosition()
                         }
                     }
                     
@@ -217,14 +221,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (contact.bodyA.categoryBitMask == thunderCategory && contact.bodyB.categoryBitMask == cloudCategory) ||
             (contact.bodyA.categoryBitMask == cloudCategory && contact.bodyB.categoryBitMask == thunderCategory) {
             if !isInvulnerable {
+                if settings.soundEnabled {
+                    playSound(named: "gameOver")
+                }
                 gameOver()
             } else {
                 isInvulnerable = false
                 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                        self.thunder.removeFromParent()
-                        self.addThunder(name: self.thunderName, size: CGSize(width: 28, height: 70))
-                        self.setThunderPosition()
+                        //self.thunder.removeFromParent()
+                       // self.thunder.texture = SKTexture(imageNamed: self.thunderName)
+                        self.changeLightningAppearance(name: self.thunderName)
+
+                       // self.addThunder(name: self.thunderName, size: CGSize(width: 28, height: 70))
+//                        self.setThunderPosition()
                     }
                 
             }
@@ -235,9 +245,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (contact.bodyA.categoryBitMask == sphereBonusCategory && contact.bodyB.categoryBitMask == thunderCategory) {
             // Bonus effect
             print("Bonus collected!")
-            thunder.removeFromParent()
-            addThunder(name: "sphereLight", size: CGSize(width: 71, height: 72))
-            setThunderPosition()
+            //thunder.removeFromParent()
+           // self.thunder.texture = SKTexture(imageNamed: "sphereLight")
+            if settings.soundEnabled {
+                playSound(named: "sphere")
+            }
+            self.changeLightningAppearance(name: "sphereLight")
+
+            //addThunder(name: "sphereLight", size: CGSize(width: 71, height: 72))
+//            setThunderPosition()
             removeSphere()
             
         }
@@ -246,16 +262,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (contact.bodyA.categoryBitMask == shieldBonusCategory && contact.bodyB.categoryBitMask == thunderCategory) {
             // Bonus effect
             print("Shield collected!")
-            
-            thunder.removeFromParent()
-            addThunder(name: "shieldLight", size: CGSize(width: 71, height: 72))
-            setThunderPosition()
+            if settings.soundEnabled {
+                playSound(named: "shield")
+            }
+            //thunder.removeFromParent()
+            //self.thunder.texture = SKTexture(imageNamed: "shieldLight")
+            changeLightningAppearance(name: "shieldLight")
+            //addThunder(name: "shieldLight", size: CGSize(width: 71, height: 72))
+//            setThunderPosition()
             
             isInvulnerable = true
             removeShield()
             
             
         }
+    }
+    
+    func changeLightningAppearance(name: String) {
+        let newTexture = SKTexture(imageNamed: name) // The new texture
+        thunder.texture = newTexture
+        
+        // Rescale the node to match the new texture while maintaining its current size
+        let aspectRatio = newTexture.size().width / newTexture.size().height 
+        let newHeight = thunder.size.height
+        let newWidth = newHeight * aspectRatio
+        thunder.size = CGSize(width: newWidth, height: newHeight)
     }
 
     func gameOver() {
@@ -268,7 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addThunder(name: String, size: CGSize) {
-        thunder = SKSpriteNode(imageNamed: name)
+        thunder = SKSpriteNode(texture: SKTexture(imageNamed: name))
         thunder.size = size
         thunder.position.y = UIScreen.main.bounds.height / 2 + shiftUp
         thunder.physicsBody = SKPhysicsBody(rectangleOf: size)
@@ -290,6 +321,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        // Restart the game
        startGame()
     }
+    
+    func playSound(named name: String) {
+        run(SKAction.playSoundFileNamed(name, waitForCompletion: false))
+        
+    }
+    
+    
+    
 }
 
 extension GameScene: GameSceneDelegate {
@@ -304,5 +343,10 @@ extension GameScene: GameSceneDelegate {
     func restart() {
         print("restart")
         restartGame()
+    }
+    
+    func stopSound() {
+        run(SKAction.stop())
+       
     }
 }

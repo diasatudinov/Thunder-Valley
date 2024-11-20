@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AchievementsView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel = AchievementsViewModel()
+    @ObservedObject var viewModel: AchievementsViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -197,5 +197,5 @@ struct AchievementsView: View {
 }
 
 #Preview {
-    AchievementsView()
+    AchievementsView(viewModel: AchievementsViewModel())
 }

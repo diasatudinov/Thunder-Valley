@@ -14,7 +14,9 @@ struct MenuView: View {
     @State private var showAchievements = false
     @State private var showSettings = false
     @State private var showRules = false
-    @ObservedObject var settings = SettingsModel()
+    @StateObject var achievementsVM = AchievementsViewModel()
+    @StateObject var leaderboardVM = LeaderboardViewModel()
+    @StateObject var settingsVM = SettingsModel()
 
     var body: some View {
         GeometryReader { geometry in
@@ -27,6 +29,7 @@ struct MenuView: View {
                         Spacer()
                         VStack(spacing: 15) {
                             MenuButton(text: "Play", fontSize: 40) {
+                                //MusicPlayer.shared.stopBackgroundMusic()
                                 showGame = true
                             }
                             .frame(height: 100)
@@ -62,6 +65,7 @@ struct MenuView: View {
                         HStack(spacing: 20) {
                             Spacer()
                             MenuButton(text: "Play", fontSize: 40) {
+                               // MusicPlayer.shared.stopBackgroundMusic()
                                 showGame = true
                             }
                             .frame(height: 100)
@@ -109,29 +113,29 @@ struct MenuView: View {
                     .scaledToFill()
                 
             )
-//            .onAppear {
-//                if settings.musicEnabled {
-//                    MusicPlayer.shared.playBackgroundMusic()
-//                }
-//            }
-//            .onChange(of: settings.musicEnabled) { enabled in
-//                if enabled {
-//                    MusicPlayer.shared.playBackgroundMusic()
-//                } else {
-//                    MusicPlayer.shared.stopBackgroundMusic()
-//                }
-//            }
+            .onAppear {
+                if settingsVM.musicEnabled {
+                    MusicPlayer.shared.playMenuMusic()
+                }
+            }
+            .onChange(of: settingsVM.musicEnabled) { enabled in
+                if enabled {
+                    MusicPlayer.shared.playMenuMusic()
+                } else {
+                    MusicPlayer.shared.stopBackgroundMusic()
+                }
+            }
             .fullScreenCover(isPresented: $showGame) {
-                GameView()
+                GameView(achievementsVM: achievementsVM, leaderboardVM: leaderboardVM, settingsVM: settingsVM)
             }
             .fullScreenCover(isPresented: $showLeaderboard) {
-                LeaderboardView()
+                LeaderboardView(viewModel: leaderboardVM)
             }
             .fullScreenCover(isPresented: $showAchievements) {
-                AchievementsView()
+                AchievementsView(viewModel: achievementsVM)
             }
             .fullScreenCover(isPresented: $showSettings) {
-                SettingsView()
+                SettingsView(settings: settingsVM)
             }
             .fullScreenCover(isPresented: $showRules) {
                 Button {

@@ -24,7 +24,9 @@ struct GameView: View {
     @State private var timeRemaining = 10
     @State private var gameOver = false
     @State private var gamePause = false
-    @ObservedObject var achievementsVM = AchievementsViewModel()
+    @ObservedObject var achievementsVM: AchievementsViewModel
+    @ObservedObject var leaderboardVM: LeaderboardViewModel
+    @ObservedObject var settingsVM: SettingsModel
     let skView = SKView()
     @State var gameScene = GameScene(size: SKView().bounds.size)
     @State var handler: GameSceneDelegate?
@@ -147,6 +149,7 @@ struct GameView: View {
                         handler?.restart()
                     }, menuPressed: {
                         print("menuPressed")
+                        handler?.stopSound()
                         presentationMode.wrappedValue.dismiss()
                     })
                 }
@@ -157,6 +160,8 @@ struct GameView: View {
                         handler?.resume()
                     }, menuPressed: {
                         print("menuPressed")
+                        handler?.stopSound()
+                       
                         presentationMode.wrappedValue.dismiss()
                     })
                 }
@@ -172,10 +177,17 @@ struct GameView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.handler = gameScene
                 }
+                if settingsVM.soundEnabled {
+                    MusicPlayer.shared.playBackgroundMusic()
+                }
+            }
+            .onDisappear {
+                MusicPlayer.shared.stopBackgroundMusic()
             }
             .onChange(of: gameOver) { newValue in
                 if newValue {
                     achivementCheck()
+                    leaderboardVM.updateScore(score: score)
                 }
             }
         }
@@ -211,5 +223,5 @@ struct GameView: View {
 }
 
 #Preview {
-    GameView()
+    GameView(achievementsVM: AchievementsViewModel(), leaderboardVM: LeaderboardViewModel(), settingsVM: SettingsModel())
 }

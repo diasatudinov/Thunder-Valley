@@ -22,7 +22,7 @@ struct GameSceneView: UIViewRepresentable {
         scene.scaleMode = .resizeFill
         scene.scoreUpdateHandler = { self.score += 1; print(score) }
         scene.gameOverHandler = { self.gameOver = true }
-        scene.bonusUpdateHandler = { bonus += 0.5 }
+        scene.bonusUpdateHandler = { bonus += 1 }
         scene.bonusResetHandler = { bonus = 0 }
         scene.restartGame()
         skView.presentScene(scene)
