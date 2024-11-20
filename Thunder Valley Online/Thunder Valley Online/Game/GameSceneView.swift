@@ -10,6 +10,7 @@ import SpriteKit
 
 struct GameSceneView: UIViewRepresentable {
     @Binding var score: Int
+    @Binding var bonus: Double
     @Binding var gameOver: Bool
     var skView: SKView
     var gameScene: GameScene
@@ -21,6 +22,8 @@ struct GameSceneView: UIViewRepresentable {
         scene.scaleMode = .resizeFill
         scene.scoreUpdateHandler = { self.score += 1; print(score) }
         scene.gameOverHandler = { self.gameOver = true }
+        scene.bonusUpdateHandler = { bonus += 0.5 }
+        scene.bonusResetHandler = { bonus = 0 }
         scene.restartGame()
         skView.presentScene(scene)
         skView.ignoresSiblingOrder = true

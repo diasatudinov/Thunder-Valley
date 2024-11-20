@@ -18,7 +18,7 @@ struct GameView: View {
     @State private var buttonsShow = false
     
     @State var score: Int = 0
-    @State var combo: Int = 0
+    @State var combo: Double = 0
     @State var distance: Int = 0
     @State private var timeRemaining = 10
     @State private var gameOver = false
@@ -28,9 +28,6 @@ struct GameView: View {
     @State var gameScene = GameScene(size: SKView().bounds.size)
     @State var handler: GameSceneDelegate?
     
-//    init() {
-//
-//    }
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -51,7 +48,7 @@ struct GameView: View {
                 }
                 
                 if counter > 1 {
-                    GameSceneView(score: $score, gameOver: $gameOver, skView: skView, gameScene: gameScene).ignoresSafeArea()
+                    GameSceneView(score: $score, bonus: $combo, gameOver: $gameOver, skView: skView, gameScene: gameScene).ignoresSafeArea()
                     //.frame(width: geometry.size.width, height: geometry.size.height)
                 }
                 
@@ -83,7 +80,7 @@ struct GameView: View {
                                 Spacer()
                                 
                                 HStack(spacing: 0) {
-                                    if combo > 0 {
+                                    if combo > 1 {
                                         Image(.combo)
                                             .resizable()
                                             .scaledToFit()
@@ -103,7 +100,7 @@ struct GameView: View {
                                                 .scaledToFit()
                                                 .frame(height: 30)
                                             Spacer()
-                                            Text("\(combo)")
+                                            Text("\(Int(combo))")
                                                 .font(.system(size: geometry.size.width < geometry.size.height ? 25 : 32))
                                                 .foregroundColor(.white)
                                             
@@ -144,6 +141,8 @@ struct GameView: View {
                         print("retryPressed")
                         gameOver = false
                         score = 0
+                        combo = 0
+                        distance = 0
                         handler?.restart()
                     }, menuPressed: {
                         print("menuPressed")
