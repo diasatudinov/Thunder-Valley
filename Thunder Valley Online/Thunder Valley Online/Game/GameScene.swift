@@ -52,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func spawnCloud() {
-        let cloudNumber = Int.random(in: 1...3)
+        let cloudNumber = Int.random(in: 1...6)
         let cloud = SKSpriteNode(imageNamed: "cloud\(cloudNumber)")
         cloud.position = CGPoint(x: CGFloat.random(in: 0...self.size.width), y: 0)
         cloud.physicsBody = SKPhysicsBody(rectangleOf: cloud.size)

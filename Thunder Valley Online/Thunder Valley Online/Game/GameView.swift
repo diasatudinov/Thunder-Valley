@@ -20,10 +20,11 @@ struct GameView: View {
     @State var score: Int = 0
     @State var combo: Double = 0
     @State var distance: Int = 0
+    
     @State private var timeRemaining = 10
     @State private var gameOver = false
     @State private var gamePause = false
-    @ObservedObject var achievements = AchievementsViewModel()
+    @ObservedObject var achievementsVM = AchievementsViewModel()
     let skView = SKView()
     @State var gameScene = GameScene(size: SKView().bounds.size)
     @State var handler: GameSceneDelegate?
@@ -172,6 +173,11 @@ struct GameView: View {
                     self.handler = gameScene
                 }
             }
+            .onChange(of: gameOver) { newValue in
+                if newValue {
+                    achivementCheck()
+                }
+            }
         }
     }
     
@@ -186,6 +192,20 @@ struct GameView: View {
             if distance >= 0 {
                 distance += 20
             }
+        }
+    }
+    
+    private func achivementCheck() {
+        if combo >= 50 {
+            achievementsVM.achievementOneDone()
+        }
+        
+        if combo >= 30 {
+            achievementsVM.achievementTwoDone()
+        }
+        
+        if distance >= 2400 {
+            achievementsVM.achievementThreeDone()
         }
     }
 }
