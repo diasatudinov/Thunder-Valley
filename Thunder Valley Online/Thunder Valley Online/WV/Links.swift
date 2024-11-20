@@ -1,7 +1,7 @@
 import Foundation
 
 
-class MontrealLinks {
-    static let montrealData = "https://montrealonline.biz/canada"
-    static let howToPlayURL = "https://montrealonline.biz/rules.html"
+class Links {
+    static let thunderData = "https://thunderonline.xyz/about"
+    static let ruleURL = "https://thunderonline.xyz/"
 }

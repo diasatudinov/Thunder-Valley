@@ -11,6 +11,9 @@ struct WV: UIViewRepresentable {
         let webView = WKWebView()
         webView.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         webView.uiDelegate = context.coordinator
+        
+        webView.customUserAgent = WKWebView().value(forKey: "userAgent") as? String
+        
         return webView
     }
 

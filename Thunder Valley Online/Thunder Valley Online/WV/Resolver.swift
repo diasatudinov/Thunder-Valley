@@ -7,10 +7,19 @@
 
 import Foundation
 
-class MontrealResolver: NSObject, URLSessionTaskDelegate {
+class Resolver: NSObject, URLSessionTaskDelegate {
     func resolveIt(from originalURL: URL, completion: @escaping (URL?) -> Void) {
+        var request = URLRequest(url: originalURL)
+        request.setValue("Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148", forHTTPHeaderField: "User-Agent")
+
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
-        let task = session.dataTask(with: originalURL) { _, response, _ in
+        let task = session.dataTask(with: request) { _, response, error in
+            if let error = error {
+                print("Error:", error.localizedDescription)
+                completion(nil)
+                return
+            }
+
             if let httpResponse = response as? HTTPURLResponse, let finalURL = httpResponse.url {
                 completion(finalURL)
             } else {
@@ -27,22 +36,23 @@ class MontrealResolver: NSObject, URLSessionTaskDelegate {
     
     
     static func checking() async -> Bool {
-        let urlString = MontrealLinks.montrealData
+        let urlString = Links.thunderData
         
         if let encodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
            let url = URL(string: encodedString) {
             
-            let handler = MontrealResolver()
+            let handler = Resolver()
             
             return await withCheckedContinuation { continuation in
                 handler.resolveIt(from: url) { finalURL in
-                    DispatchQueue.main.async {
+                    
+                        print("finalURL",finalURL)
                         if let finalURL {
                             continuation.resume(returning: finalURL.host?.contains("google") ?? true)
                         } else {
                             continuation.resume(returning: false)
                         }
-                    }
+                    
                 }
             }
             

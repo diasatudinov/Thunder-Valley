@@ -8,7 +8,7 @@ struct RulesView: View {
     
     var body: some View {
         ZStack {
-            WVWrap(urlString: MontrealLinks.howToPlayURL)
+            WVWrap(urlString: Links.ruleURL)
             HStack {
                 VStack {
                     Button {

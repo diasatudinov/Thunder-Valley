@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SplashScreen: View {
-    @State private var isScaled = false
+    @State private var scale: CGFloat = 1.0
+    
     var body: some View {
         VStack {
             Spacer()
@@ -19,12 +20,17 @@ struct SplashScreen: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: 146)
-                    .scaleEffect(isScaled ? 1 : 0.75)
-                    .animation(.easeInOut(duration: 2), value: isScaled)
+                    .scaleEffect(scale)
+                    .animation(
+                        Animation.easeInOut(duration: 0.8)
+                            .repeatForever(autoreverses: true),
+                        value: scale
+                    )
+                    .onAppear {
+                        scale = 1.2
+                    }
                 Spacer()
 
-            }.onAppear {
-                isScaled = true
             }
             Spacer()
         }.background(
