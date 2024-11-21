@@ -46,7 +46,7 @@ struct RootView: View {
     
     
     func updateIfNeeded() {
-        if toUp {
+        
             Task {
                 if await !Resolver.checking() {
                     verse = 1
@@ -59,9 +59,7 @@ struct RootView: View {
                     isLoading = false
                 }
             }
-        } else {
-            isLoading = false
-        }
+        
         
         
     }
