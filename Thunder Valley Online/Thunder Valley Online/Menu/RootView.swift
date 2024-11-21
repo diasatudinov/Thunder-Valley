@@ -26,6 +26,14 @@ struct RootView: View {
                         SplashScreen()
                     } else {
                         MenuView()
+                            .onAppear {
+                                AppDelegate.orientationLock = .landscape
+                                setOrientation(.landscapeRight)
+                            }
+                            .onDisappear {
+                                AppDelegate.orientationLock = .all
+                            }
+                            
                     }
                 }
             }
@@ -57,6 +65,16 @@ struct RootView: View {
         
         
     }
+    
+    func setOrientation(_ orientation: UIInterfaceOrientation) {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let selector = NSSelectorFromString("setInterfaceOrientation:")
+            if let responder = windowScene.value(forKey: "keyWindow") as? UIResponder, responder.responds(to: selector) {
+                responder.perform(selector, with: orientation.rawValue)
+            }
+        }
+    }
+
     
 }
 
