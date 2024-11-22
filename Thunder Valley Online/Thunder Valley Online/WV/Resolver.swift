@@ -45,13 +45,15 @@ class Resolver: NSObject, URLSessionTaskDelegate {
             
             return await withCheckedContinuation { continuation in
                 handler.resolveIt(from: url) { finalURL in
-                    
-                        print("finalURL",finalURL)
-                        if let finalURL {
-                            continuation.resume(returning: finalURL.host?.contains("google") ?? true)
-                        } else {
-                            continuation.resume(returning: false)
-                        }
+                    print(finalURL)
+                    if let finalURL {
+                        
+                        Links.shared.finalURL = finalURL
+                        continuation.resume(returning: finalURL.host?.contains("google") ?? true)
+                    } else {
+                        Links.shared.finalURL = finalURL
+                        continuation.resume(returning: false)
+                    }
                     
                 }
             }

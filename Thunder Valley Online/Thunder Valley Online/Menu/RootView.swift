@@ -12,7 +12,7 @@ struct RootView: View {
   
     
     
-    @AppStorage("need") var toUp: Bool = true
+    @State var toUp: Bool = true
     @AppStorage("vers") var verse: Int = 0
     
     var body: some View {
@@ -40,6 +40,7 @@ struct RootView: View {
         }
         .onAppear {
             updateIfNeeded()
+            print(Links.shared.finalURL)
         }
     }
     
@@ -47,18 +48,18 @@ struct RootView: View {
     
     func updateIfNeeded() {
         
-            Task {
-                if await !Resolver.checking() {
-                    verse = 1
-                    toUp = false
-                    isLoading = false
-                    
-                } else {
-                    verse = 0
-                    toUp = true
-                    isLoading = false
-                }
+        Task {
+            if await !Resolver.checking() {
+                verse = 1
+                toUp = false
+                isLoading = false
+                
+            } else {
+                verse = 0
+                toUp = true
+                isLoading = false
             }
+        }
         
         
         
