@@ -21,9 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return UIDevice.current.orientation.isPortrait ? 4 : 2
     }
     
-    var shiftUp: Double {
-        return UIDevice.current.orientation.isPortrait ? 200 : 50
-    }
+    var shiftUp: Double = 50
     
     var scoreUpdateHandler: (() -> Void)?
     var gameOverHandler: (() -> Void)?
@@ -203,6 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(spawnSequenceShield), withKey: "spawningShield")
     
     }
+    
     func setThunderPosition() {
         thunder.position = CGPoint(x: thunderPosition, y: UIScreen.main.bounds.height / 2 + shiftUp)
     }
