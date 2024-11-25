@@ -1,9 +1,4 @@
-//
-//  GameScene.swift
-//  Thunder Valley Online
-//
-//  Created by Dias Atudinov on 18.11.2024.
-//
+
 
 import SpriteKit
 
@@ -47,13 +42,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Set up physics world
         self.physicsWorld.contactDelegate = self
         // Spawn clouds
-        
         startGame()
     }
-
+    
     func spawnCloud() {
         let cloudNumber = Int.random(in: 1...6)
         let cloud = SKSpriteNode(imageNamed: "cloud\(cloudNumber)")
+        cloud.name = "cloud"
         cloud.position = CGPoint(x: CGFloat.random(in: 0...self.size.width), y: 0)
         cloud.physicsBody = SKPhysicsBody(rectangleOf: cloud.size)
         cloud.physicsBody?.isDynamic = true
@@ -64,20 +59,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cloud.physicsBody?.velocity = CGVector(dx: 0, dy: 200)
         cloud.physicsBody?.linearDamping = 0
         addChild(cloud)
-        
-        // Remove cloud when it goes off screen
-        let removeCloud = SKAction.sequence([
-            SKAction.wait(forDuration: duration),
-            SKAction.run {
-                if !self.isPaused {
-                    self.scoreUpdateHandler?()
-                }
-            },
-            SKAction.removeFromParent()
-            
-        ])
-        cloud.run(removeCloud)
-        
     }
     var sphere: SKSpriteNode!
     var shield: SKSpriteNode!
@@ -88,6 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnSphere() {
         sphere = SKSpriteNode(imageNamed: "sphere")
+        sphere.name = "sphere"
         sphere.size = CGSize(width: 50, height: 50)
         sphere.position = CGPoint(x: CGFloat.random(in: 0...self.size.width), y: 0)
         sphere.physicsBody = SKPhysicsBody(rectangleOf: sphere.size)
@@ -99,27 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sphere.physicsBody?.velocity = CGVector(dx: 0, dy: 250)
         sphere.physicsBody?.linearDamping = 0
         addChild(sphere)
-        
-        let removeSphere = SKAction.sequence([
-            SKAction.wait(forDuration: duration),
-            SKAction.run {
-                if !self.isPaused {
-                    self.bonusResetHandler?()
-                    if !self.isInvulnerable {
-                        DispatchQueue.main.async {
-                           // self.thunder.removeFromParent()
-                            //self.thunder.texture = SKTexture(imageNamed: self.thunderName)
-                            self.changeLightningAppearance(name: self.thunderName)
-                            //self.addThunder(name: self.thunderName, size: CGSize(width: 28, height: 70))
-//                            self.setThunderPosition()
-                        }
-                    }
-                    
-                }
-            },
-            SKAction.removeFromParent()
-        ])
-        sphere.run(removeSphere)
         
     }
     
@@ -143,6 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func spawnShield() {
         
         shield = SKSpriteNode(imageNamed: "shieldBonus")
+        shield.name = "shield"
         shield.size = CGSize(width: 50, height: 50)
         shield.position = CGPoint(x: CGFloat.random(in: 0...self.size.width), y: 0)
         shield.physicsBody = SKPhysicsBody(rectangleOf: sphere.size)
@@ -154,12 +116,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shield.physicsBody?.velocity = CGVector(dx: 0, dy: 250)
         shield.physicsBody?.linearDamping = 0
         addChild(shield)
-        
-        let removeShield = SKAction.sequence([
-            SKAction.wait(forDuration: duration),
-            SKAction.removeFromParent()
-        ])
-        shield.run(removeShield)
         
     }
     
@@ -189,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let spawnSequence = SKAction.sequence([spawnClouds, delay])
         run(SKAction.repeatForever(spawnSequence), withKey: "spawningClouds")
         
-
+        
         let spawnSphere = SKAction.run { self.spawnSphere() }
         let delaySphere = SKAction.wait(forDuration: TimeInterval(delayNumberSphere))
         let spawnSequenceSphere = SKAction.sequence([spawnSphere, delaySphere])
@@ -199,14 +155,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let delayShield = SKAction.wait(forDuration: TimeInterval(delayNumberShield))
         let spawnSequenceShield = SKAction.sequence([spawnShield, delayShield])
         run(SKAction.repeatForever(spawnSequenceShield), withKey: "spawningShield")
-    
+        
     }
     
     func setThunderPosition() {
         thunder.position = CGPoint(x: thunderPosition, y: UIScreen.main.bounds.height / 2 + shiftUp)
     }
     
-
+    override func update(_ currentTime: TimeInterval) {
+        super.update(currentTime)
+        
+        // Удаляем облака, которые вышли за пределы экрана
+        for node in children {
+            if node.position.y > self.size.height + node.frame.height {
+                if node.name == "cloud" {
+                    print("cloud removed")
+                    if !self.isPaused {
+                        self.scoreUpdateHandler?()
+                    }
+                    
+                    node.removeFromParent()
+                }
+                
+                if node.name == "shield" {
+                    print("shield removed")
+                    node.removeFromParent()
+                }
+                
+                if node.name == "sphere" {
+                    print("sphere removed")
+                    if !self.isPaused {
+                        self.bonusResetHandler?()
+                        if !self.isInvulnerable {
+                            DispatchQueue.main.async {
+                                
+                                self.changeLightningAppearance(name: self.thunderName)
+                                
+                            }
+                        }
+                        
+                    }
+                    node.removeFromParent()
+                }
+            }
+        }
+    }
+    
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard !isGameOver else { return }
         if let touch = touches.first {
@@ -214,7 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thunder.position.x = location.x
         }
     }
-
+    
     func didBegin(_ contact: SKPhysicsContact) {
         // Handle collision
         if (contact.bodyA.categoryBitMask == thunderCategory && contact.bodyB.categoryBitMask == cloudCategory) ||
@@ -227,14 +222,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 isInvulnerable = false
                 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                        //self.thunder.removeFromParent()
-                       // self.thunder.texture = SKTexture(imageNamed: self.thunderName)
-                        self.changeLightningAppearance(name: self.thunderName)
-
-                       // self.addThunder(name: self.thunderName, size: CGSize(width: 28, height: 70))
-//                        self.setThunderPosition()
-                    }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    self.changeLightningAppearance(name: self.thunderName)
+                   
+                }
                 
             }
         }
@@ -244,15 +235,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (contact.bodyA.categoryBitMask == sphereBonusCategory && contact.bodyB.categoryBitMask == thunderCategory) {
             // Bonus effect
             print("Bonus collected!")
-            //thunder.removeFromParent()
-           // self.thunder.texture = SKTexture(imageNamed: "sphereLight")
             if settings.soundEnabled {
                 playSound(named: "sphere")
             }
             self.changeLightningAppearance(name: "sphereLight")
-
-            //addThunder(name: "sphereLight", size: CGSize(width: 71, height: 72))
-//            setThunderPosition()
+            
             removeSphere()
             
         }
@@ -264,11 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if settings.soundEnabled {
                 playSound(named: "shield")
             }
-            //thunder.removeFromParent()
-            //self.thunder.texture = SKTexture(imageNamed: "shieldLight")
             changeLightningAppearance(name: "shieldLight")
-            //addThunder(name: "shieldLight", size: CGSize(width: 71, height: 72))
-//            setThunderPosition()
             
             isInvulnerable = true
             removeShield()
@@ -282,12 +265,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         thunder.texture = newTexture
         
         // Rescale the node to match the new texture while maintaining its current size
-        let aspectRatio = newTexture.size().width / newTexture.size().height 
+        let aspectRatio = newTexture.size().width / newTexture.size().height
         let newHeight = thunder.size.height
         let newWidth = newHeight * aspectRatio
         thunder.size = CGSize(width: newWidth, height: newHeight)
     }
-
+    
     func gameOver() {
         // Stop the scene and display Game Over
         self.isPaused = true
@@ -317,8 +300,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addThunder(name: thunderName, size: CGSize(width: 28, height: 70))
         thunder.position.x = UIScreen.main.bounds.width / 2
         isGameOver = false
-//        // Restart the game
-       startGame()
+        //        // Restart the game
+        startGame()
     }
     
     func playSound(named name: String) {
@@ -346,6 +329,6 @@ extension GameScene: GameSceneDelegate {
     
     func stopSound() {
         run(SKAction.stop())
-       
+        
     }
 }
