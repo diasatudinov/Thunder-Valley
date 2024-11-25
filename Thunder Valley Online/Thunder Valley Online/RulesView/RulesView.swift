@@ -8,7 +8,7 @@ struct RulesView: View {
     
     var body: some View {
         ZStack {
-            WVWrap(urlString: Links.ruleURL)
+            WV(url: URL(string: Links.ruleURL)!)
             HStack {
                 VStack {
                     Button {

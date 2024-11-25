@@ -47,8 +47,10 @@ class Resolver: NSObject, URLSessionTaskDelegate {
                 handler.resolveIt(from: url) { finalURL in
                     print(finalURL)
                     if let finalURL {
+                        if Links.shared.finalURL == nil && ((finalURL.host?.contains("google")) != true) {
+                            Links.shared.finalURL = finalURL
+                        }
                         
-                        Links.shared.finalURL = finalURL
                         continuation.resume(returning: finalURL.host?.contains("google") ?? true)
                     } else {
                         Links.shared.finalURL = finalURL
