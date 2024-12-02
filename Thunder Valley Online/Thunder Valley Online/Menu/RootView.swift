@@ -18,7 +18,7 @@ struct RootView: View {
     var body: some View {
         
         ZStack {
-            if !toUp && verse == 1 {
+            if verse == 1 {
                 WVWrap(urlString: Links.thunderData)
             } else {
                 VStack {
@@ -47,20 +47,22 @@ struct RootView: View {
     
     
     func updateIfNeeded() {
-        
-        Task {
-            if await !Resolver.checking() {
-                verse = 1
-                toUp = false
-                isLoading = false
-                
-            } else {
-                verse = 0
-                toUp = true
-                isLoading = false
+        if Links.shared.finalURL == nil {
+            Task {
+                if await !Resolver.checking() {
+                    verse = 1
+                    toUp = false
+                    isLoading = false
+                    
+                } else {
+                    verse = 0
+                    toUp = true
+                    isLoading = false
+                }
             }
+        } else {
+            isLoading = false
         }
-        
         
         
     }
